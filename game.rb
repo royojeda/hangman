@@ -31,7 +31,7 @@ class Game
 
   def take_guess
     puts 'Enter a guess: '
-    gets.chomp.downcase
+    gets.chomp.upcase
   end
 
   def check_guess(guess)
@@ -64,7 +64,7 @@ class Game
       end
     end
 
-    words[rand(0..(words.length - 1))].chars
+    words[rand(0..(words.length - 1))].upcase.chars
   end
 
   def show_tracker
@@ -74,10 +74,11 @@ class Game
   def game_end
     display
     if remaining_guesses.zero?
-      puts "GAME OVER! You've run out of guesses.\n\nThe secret word was: #{secret_word.join}\n\n"
+      puts "GAME OVER! You've run out of guesses.\n\nThe secret word was: #{secret_word.join.upcase}"
     else
       puts "CONGRATULATIONS! You've discovered the secret word!"
     end
+    puts "\n"
   end
 
   private
