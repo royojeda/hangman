@@ -1,10 +1,10 @@
 class Game
-  attr_reader :tracker, :incorrect_guesses, :remaining_guesses, :guesses
+  attr_reader :tracker, :incorrect_guesses, :remaining_guesses, :current_guess
 
   GUESS_LIMIT = 6
 
   def initialize
-    @guesses = []
+    @current_guess = ''
     @incorrect_guesses = []
     @remaining_guesses = GUESS_LIMIT
     @secret_word = choose_word
@@ -21,8 +21,8 @@ class Game
   def play
     until remaining_guesses.zero?
       display
-      guesses[GUESS_LIMIT - remaining_guesses] = take_guess
-      check_guess(guesses[GUESS_LIMIT - remaining_guesses])
+      current_guess = take_guess
+      check_guess(current_guess)
       break if tracker == secret_word
     end
 
@@ -74,7 +74,7 @@ class Game
   def game_end
     display
     if remaining_guesses.zero?
-      puts "GAME OVER! You've run out of guesses."
+      puts "GAME OVER! You've run out of guesses.\n\nThe secret word was: #{secret_word.join}\n\n"
     else
       puts "CONGRATULATIONS! You've discovered the secret word!"
     end
@@ -83,7 +83,7 @@ class Game
   private
 
   attr_reader :secret_word
-  attr_writer :remaining_guesses, :guesses
+  attr_writer :remaining_guesses, :current_guess
 end
 
 Game.new.play
