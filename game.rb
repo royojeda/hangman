@@ -1,3 +1,4 @@
+# Hangman game class
 class Game
   attr_reader :tracker, :incorrect_guesses, :remaining_guesses, :current_guess
 
