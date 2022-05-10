@@ -1,5 +1,6 @@
 class Game
-  attr_reader :remaining_guesses, :tracker
+  attr_reader :tracker
+  attr_accessor :guess, :remaining_guesses
 
   def initialize
     system 'clear'
@@ -8,6 +9,21 @@ class Game
     choose_word
     @tracker = Array.new(secret_word.length, '_')
     show_tracker
+  end
+
+  def play
+    until remaining_guesses.zero?
+      take_guess
+      self.remaining_guesses -= 1
+      system 'clear'
+      show_remaining_guesses
+      show_tracker
+    end
+  end
+
+  def take_guess
+    puts 'Enter a guess: '
+    self.guess = gets.chomp.downcase
   end
 
   def show_remaining_guesses
@@ -33,4 +49,4 @@ class Game
   attr_reader :secret_word
 end
 
-Game.new
+Game.new.play
