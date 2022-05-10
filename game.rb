@@ -12,6 +12,8 @@ class Game
     choose_word
     @tracker = Array.new(secret_word.length, '_')
     show_tracker
+    p guesses
+    p secret_word
   end
 
   def play
@@ -22,6 +24,7 @@ class Game
       show_remaining_guesses
       show_tracker
       p guesses
+      p secret_word
     end
   end
 
@@ -41,7 +44,7 @@ class Game
       end
     end
 
-    @secret_word = words[rand(0..(words.length - 1))]
+    @secret_word = words[rand(0..(words.length - 1))].chars
   end
 
   def show_tracker
