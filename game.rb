@@ -1,28 +1,19 @@
 class Game
-  attr_accessor :counter
-
   def initialize
-    @guesses_left = 6
-    @counter = 0
-    load_dictionary
+    @remaining_guesses = 6
+
+    choose_word
   end
 
-  def load_dictionary
+  def choose_word
     words = File.open('google-10000-english-no-swears.txt', 'r') do |dictionary|
       dictionary.readlines.filter_map do |word|
         word.chomp if word.length.between?(6, 13)
       end
     end
 
-    secret_word = words[rand(0..(words.length - 1))]
-
-    p secret_word
+    @secret_word = words[rand(0..(words.length - 1))]
   end
-
-  private
-
-  attr_reader :word
-  attr_writer :guesses_left
 end
 
 Game.new
