@@ -7,8 +7,7 @@ class Game
     @guesses = []
     @incorrect_guesses = []
     @remaining_guesses = GUESS_LIMIT
-    #choose_word
-    @secret_word = ['t', 'e', 's', 't']
+    @secret_word = choose_word
     @tracker = Array.new(secret_word.length, '_')
   end
 
@@ -40,7 +39,7 @@ class Game
       update_tracker(guess)
     else
       self.remaining_guesses -= 1
-      incorrect_guesses.push(guess)
+      incorrect_guesses.push(guess) unless incorrect_guesses.include?(guess)
     end
   end
 
@@ -65,7 +64,7 @@ class Game
       end
     end
 
-    @secret_word = words[rand(0..(words.length - 1))].chars
+    words[rand(0..(words.length - 1))].chars
   end
 
   def show_tracker
