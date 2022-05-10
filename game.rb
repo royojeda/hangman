@@ -1,8 +1,15 @@
 class Game
-  def initialize
-    @remaining_guesses = 6
+  attr_reader :remaining_guesses
 
+  def initialize
+    system 'clear'
+    @remaining_guesses = 6
+    show_remaining_guesses
     choose_word
+  end
+
+  def show_remaining_guesses
+    puts "Remaining guesses: #{remaining_guesses}"
   end
 
   def choose_word
