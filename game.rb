@@ -7,9 +7,9 @@ class Game
     @guesses = []
     @incorrect_guesses = []
     @remaining_guesses = GUESS_LIMIT
-    choose_word
+    #choose_word
+    @secret_word = ['t', 'e', 's', 't']
     @tracker = Array.new(secret_word.length, '_')
-    display
   end
 
   def display
@@ -21,11 +21,13 @@ class Game
 
   def play
     until remaining_guesses.zero?
+      display
       guesses[GUESS_LIMIT - remaining_guesses] = take_guess
       check_guess(guesses[GUESS_LIMIT - remaining_guesses])
-
-      display
+      break if tracker == secret_word
     end
+
+    game_end
   end
 
   def take_guess
@@ -68,6 +70,15 @@ class Game
 
   def show_tracker
     puts "Secret Word: #{tracker.join(' ')}\n\n"
+  end
+
+  def game_end
+    display
+    if remaining_guesses.zero?
+      puts "GAME OVER! You've run out of guesses."
+    else
+      puts "CONGRATULATIONS! You've discovered the secret word!"
+    end
   end
 
   private
