@@ -1,30 +1,30 @@
 class Game
-  attr_reader :tracker
-  attr_accessor :guesses, :remaining_guesses
+  attr_reader :tracker, :incorrect_guesses, :remaining_guesses, :guesses
 
   GUESS_LIMIT = 6
 
   def initialize
     @guesses = []
-    system 'clear'
+    @incorrect_guesses = []
     @remaining_guesses = GUESS_LIMIT
-    show_remaining_guesses
     choose_word
     @tracker = Array.new(secret_word.length, '_')
+    display
+  end
+
+  def display
+    system 'clear'
+    show_remaining_guesses
     show_tracker
-    p guesses
-    p secret_word
+    show_incorrect_guesses
   end
 
   def play
     until remaining_guesses.zero?
       guesses[GUESS_LIMIT - remaining_guesses] = take_guess
-      self.remaining_guesses -= 1
-      system 'clear'
-      show_remaining_guesses
-      show_tracker
-      p guesses
-      p secret_word
+      check_guess(guesses[GUESS_LIMIT - remaining_guesses])
+
+      display
     end
   end
 
@@ -33,8 +33,27 @@ class Game
     gets.chomp.downcase
   end
 
+  def check_guess(guess)
+    if secret_word.include?(guess)
+      update_tracker(guess)
+    else
+      self.remaining_guesses -= 1
+      incorrect_guesses.push(guess)
+    end
+  end
+
+  def update_tracker(guess)
+    secret_word.each_with_index do |letter, index|
+      tracker[index] = guess if letter == guess
+    end
+  end
+
   def show_remaining_guesses
-    puts "Remaining guesses: #{remaining_guesses}"
+    puts "Remaining guesses: #{remaining_guesses}\n\n"
+  end
+
+  def show_incorrect_guesses
+    puts "Incorrect guesses: #{incorrect_guesses}\n\n"
   end
 
   def choose_word
@@ -48,12 +67,13 @@ class Game
   end
 
   def show_tracker
-    puts tracker.join(' ')
+    puts "Secret Word: #{tracker.join(' ')}\n\n"
   end
 
   private
 
   attr_reader :secret_word
+  attr_writer :remaining_guesses, :guesses
 end
 
 Game.new.play
