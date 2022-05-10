@@ -31,7 +31,18 @@ class Game
 
   def take_guess
     puts 'Enter a guess: '
-    gets.chomp.upcase
+    input = gets.chomp.upcase
+    validate(input)
+  end
+
+  def validate(input)
+    return input if input != '' &&
+                    input.length == 1 &&
+                    input.ord.between?(65, 90)
+
+    display
+    puts "Invalid guess. Please enter a letter.\n\n"
+    take_guess
   end
 
   def check_guess(guess)
