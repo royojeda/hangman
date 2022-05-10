@@ -22,23 +22,27 @@ class Game
     until remaining_guesses.zero?
       display
       current_guess = take_guess
+      return true if current_guess == 'SAVE'
+
       check_guess(current_guess)
       break if tracker == secret_word
     end
 
     game_end
+    false
   end
 
   def take_guess
-    puts 'Enter a guess: '
+    puts "Enter a guess (or 'save' to save the game): "
     input = gets.chomp.upcase
     validate(input)
   end
 
   def validate(input)
-    return input if input != '' &&
+    return input if input == 'SAVE' ||
+                    (input != '' &&
                     input.length == 1 &&
-                    input.ord.between?(65, 90)
+                    input.ord.between?(65, 90))
 
     display
     puts "Invalid guess. Please enter a letter.\n\n"
@@ -97,5 +101,3 @@ class Game
   attr_reader :secret_word
   attr_writer :remaining_guesses, :current_guess
 end
-
-Game.new.play
