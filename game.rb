@@ -66,7 +66,7 @@ class Game
   end
 
   def show_remaining_guesses
-    puts "Remaining guesses: #{remaining_guesses}\n\n"
+    puts "Remaining incorrect guesses: #{remaining_guesses}\n\n"
   end
 
   def show_incorrect_guesses
