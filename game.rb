@@ -75,8 +75,8 @@ class Game
 
   def choose_word
     words = File.open('google-10000-english-no-swears.txt', 'r') do |dictionary|
-      dictionary.readlines.filter_map do |word|
-        word.chomp if word.length.between?(6, 13)
+      dictionary.readlines.each_with_object([]) do |word, arr|
+        arr.push(word.chomp) if word.length.between?(6, 13)
       end
     end
 
